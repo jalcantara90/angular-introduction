@@ -1,0 +1,28 @@
+.layout {
+  height: 100vh;
+  width: 100vw;
+  display: grid;
+  grid-template-columns: 15rem 1fr;
+  grid-template-rows: 5vh 1fr;
+  grid-template-areas:
+    "header header"
+    "sidebar content";
+
+  &__sidebar {
+    grid-area: sidebar;
+    border-right: 1px solid var(--tui-base-03);
+    padding: 1rem;
+  }
+
+  &__header {
+    grid-area: header;
+    border-bottom: 1px solid var(--tui-base-03);
+    padding: 1rem;
+  }
+
+
+  &__content {
+    grid-area: content;
+    padding: 1rem;
+  }
+}

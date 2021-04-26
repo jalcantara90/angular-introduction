@@ -1,0 +1,27 @@
+.sidebar {
+  list-style: none;
+
+  &__item {
+
+    // background-color: var(--tui-base-02);
+
+    cursor: pointer;
+    margin-bottom: .5rem;
+
+    color: var(--tui-text-01-night);
+    padding: .5rem .3rem;
+    display: block;
+    border-radius: 3px;
+    transition: 300ms ease-in-out;
+
+    &:hover {
+      background-color: var(--tui-base-03);
+    }
+
+
+    &--active {
+      background-color: var(--tui-base-03);
+    }
+
+  }
+}

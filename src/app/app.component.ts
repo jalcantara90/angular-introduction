@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { ConfigurationService } from './shared/configuration/configuration.service';
 
 @Component({
   selector: 'app-root',
