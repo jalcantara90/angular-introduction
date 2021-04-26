@@ -1,1 +1,10 @@
-<p>parent works!</p>
+<app-child (searchPokemon)="selected = $event"></app-child>
+
+<article *ngIf="selected">
+  <img [src]="selected.sprites.front_default" alt="pokemon image">
+
+  <span>{{selected.name}}</span>
+  <div *ngFor="let type of selected.types" class="icon" [ngClass]="[type.type.name]">
+    <img [src]="getType(type.type.name)"/>
+  </div>
+</article>

@@ -1,4 +1,4 @@
-import { PokemonService } from './pokemon/pokemon.service';
+import { PokemonService } from '../shared/pokemon/pokemon.service';
 import { ConfigurationService } from './../shared/configuration/configuration.service';
 import { Component, OnInit } from '@angular/core';
 import { switchMap } from 'rxjs/operators';
@@ -17,8 +17,8 @@ export class AppInitializerComponent implements OnInit {
 
   ngOnInit(): void {
     this.configurationService.loadConfiguration().pipe(
-      switchMap(() => this.pokemonService.getBulbasaur())
-    ).subscribe();
+      switchMap(() => this.pokemonService.getPokemonList())
+    ).subscribe((response) => console.log(response));
   }
 
 }
