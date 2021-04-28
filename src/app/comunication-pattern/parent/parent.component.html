@@ -1,10 +1,19 @@
-<app-child (searchPokemon)="selected = $event"></app-child>
+<h1>Comunication patterns</h1>
 
-<article *ngIf="selected">
-  <img [src]="selected.sprites.front_default" alt="pokemon image">
+<p>
+  Is recomended divide UI components from logic components,
+  in this case we have search component that deliver a pokemon to the parent component, to improve the maintainability is better that
+  search component only deliver the typed string and the consumer manage to call where he need.
+</p>
 
-  <span>{{selected.name}}</span>
-  <div *ngFor="let type of selected.types" class="icon" [ngClass]="[type.type.name]">
-    <img [src]="getType(type.type.name)"/>
-  </div>
-</article>
+<div class="horizontal-divider-1"></div>
+
+<app-child
+  (searchPokemon)="selected = $event">
+</app-child>
+
+<div class="horizontal-divider-1"></div>
+<app-pokemon-card
+  [pokemon]="selected"
+  *ngIf="selected?.name">
+</app-pokemon-card>

@@ -7,6 +7,7 @@ import { ChildComponent } from './child/child.component';
 import {TuiInputModule} from '@taiga-ui/kit';
 import { ReactiveFormsModule } from '@angular/forms';
 import {TuiMarkerIconModule} from '@taiga-ui/kit';
+import { PokemonCardModule } from '../shared/pokemon-card/pokemon-card.module';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import {TuiMarkerIconModule} from '@taiga-ui/kit';
     ComunicationPatternRoutingModule,
     TuiInputModule,
     ReactiveFormsModule,
-    TuiMarkerIconModule
+    TuiMarkerIconModule,
+    PokemonCardModule
   ],
   exports: [
     ParentComponent

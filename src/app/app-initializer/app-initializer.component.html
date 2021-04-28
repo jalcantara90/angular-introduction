@@ -1,1 +1,10 @@
-<p>app-initializer works!</p>
+<h1>App Initializer</h1>
+
+<p>At load page we want to have ready de url received by fake loadConfigurationService, to print the list of pokemon</p>
+
+<div class="pokemon__grid">
+  <app-pokemon-card
+    [pokemon]="pokemon"
+    *ngFor="let pokemon of pokemonList">
+  </app-pokemon-card>
+</div>

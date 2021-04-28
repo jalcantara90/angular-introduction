@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { ConfigurationService } from '../configuration/configuration.service';
 import { Injectable } from '@angular/core';
-import { catchError, switchMap } from 'rxjs/operators';
+import { catchError, map, switchMap } from 'rxjs/operators';
 import { forkJoin, of } from 'rxjs';
 
 @Injectable({
@@ -19,7 +19,13 @@ export class PokemonService {
   }
 
   searchPokemon(pokemonName: string) {
-    return this.http.get<Pokemon>(this.configurationService.config.apiUrl + `/${pokemonName}`).pipe(
+    return this.http.get<Pokemon>(this.configurationService.config.apiUrl + `/${pokemonName.toLowerCase()}`).pipe(
+      switchMap((pokemon) => this.http.get<PokemonDescription>(pokemon.species.url).pipe(
+        map(spice => ({
+          ...pokemon,
+          description: spice.flavor_text_entries.find(x => x.language.name === 'en').flavor_text
+        }))
+      )),
       catchError(() => of(DEFAULT_POKEMON))
     );
   }
@@ -27,7 +33,7 @@ export class PokemonService {
   getPokemonList() {
     return this.http.get<Pagination>(this.configurationService.config.apiUrl + `?limit=9&offset=0`).pipe(
       switchMap((res) => forkJoin(
-          res.results.map(pokemon => this.http.get(pokemon.url))
+          res.results.map(pokemon => this.searchPokemon(pokemon.name))
         )
       )
     );
@@ -37,7 +43,11 @@ export class PokemonService {
 export interface Pokemon {
   name: string;
   sprites: Sprites;
-  types: PokemonType[]
+  types: PokemonType[];
+  species: {
+    url: string;
+  };
+  description?: string;
 }
 
 export interface Sprites {
@@ -61,9 +71,18 @@ export interface PokemonType {
 
 export interface Pagination {
   count: number;
-  next: string,
+  next: string;
   previous: string;
-  results: { name: string, url: string }[]
+  results: { name: string, url: string }[];
+}
+
+export interface PokemonDescription {
+  flavor_text_entries: {
+    flavor_text: string,
+    language: {
+      name: string;
+    }
+  }[];
 }
 
 const DEFAULT_POKEMON: Pokemon = {
@@ -78,5 +97,10 @@ const DEFAULT_POKEMON: Pokemon = {
     front_female: '',
     front_shiny: '',
     front_shiny_female: ''
+  },
+  species: {
+    url: ''
   }
 }
+
+

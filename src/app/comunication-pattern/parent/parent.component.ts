@@ -13,8 +13,4 @@ export class ParentComponent implements OnInit {
 
   ngOnInit(): void {
   }
-
-  getType(type: string) {
-    return 'assets/icons/' + type + '.svg'
-  }
 }

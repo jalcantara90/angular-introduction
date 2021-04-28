@@ -1,0 +1,18 @@
+<article class="pokemon__card">
+  <img
+    class="pokemon__card__image"
+   [src]="pokemon.sprites.front_default"
+   alt="pokemon image">
+
+  <span class="pokemon__card__name">{{pokemon.name}}</span>
+
+  <p class="pokemon__card__description">{{pokemon.description}}</p>
+
+  <div class="pokemon__card__types">
+    <div
+      *ngFor="let type of pokemon.types" class="icon pokemon__card__types__type"
+      [ngClass]="[type.type.name]">
+      <img [src]="getType(type.type.name)"/>
+    </div>
+  </div>
+</article>

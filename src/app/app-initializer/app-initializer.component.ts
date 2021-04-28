@@ -1,4 +1,4 @@
-import { PokemonService } from '../shared/pokemon/pokemon.service';
+import { Pokemon, PokemonService } from '../shared/pokemon/pokemon.service';
 import { ConfigurationService } from './../shared/configuration/configuration.service';
 import { Component, OnInit } from '@angular/core';
 import { switchMap } from 'rxjs/operators';
@@ -9,6 +9,7 @@ import { switchMap } from 'rxjs/operators';
   styleUrls: ['./app-initializer.component.scss']
 })
 export class AppInitializerComponent implements OnInit {
+  pokemonList: Pokemon[];
 
   constructor(
     private configurationService: ConfigurationService,
@@ -18,7 +19,7 @@ export class AppInitializerComponent implements OnInit {
   ngOnInit(): void {
     this.configurationService.loadConfiguration().pipe(
       switchMap(() => this.pokemonService.getPokemonList())
-    ).subscribe((response) => console.log(response));
+    ).subscribe((response) => this.pokemonList = response);
   }
 
 }

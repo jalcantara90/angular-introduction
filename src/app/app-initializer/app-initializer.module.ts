@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AppInitializerComponent } from './app-initializer.component';
 import { AppInitializerRoutingModule } from './app-initializer-routing.module';
+import { PokemonCardModule } from '../shared/pokemon-card/pokemon-card.module';
 
 @NgModule({
   declarations: [
@@ -9,7 +10,8 @@ import { AppInitializerRoutingModule } from './app-initializer-routing.module';
   ],
   imports: [
     CommonModule,
-    AppInitializerRoutingModule
+    AppInitializerRoutingModule,
+    PokemonCardModule
   ],
   exports: [
     AppInitializerComponent
