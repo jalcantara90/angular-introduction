@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
-import { ConfigurationService } from '../configuration/configuration.service';
 import { Injectable } from '@angular/core';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import { forkJoin, of } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -10,16 +10,15 @@ import { forkJoin, of } from 'rxjs';
 export class PokemonService {
 
   constructor(
-    private configurationService: ConfigurationService,
-    private http: HttpClient
+    private http: HttpClient,
   ) { }
 
   getBulbasaur() {
-    return this.http.get<Pokemon>(this.configurationService.config.apiUrl + '/1');
+    return this.http.get<Pokemon>(environment.apiUrl + '/1');
   }
 
   searchPokemon(pokemonName: string) {
-    return this.http.get<Pokemon>(this.configurationService.config.apiUrl + `/${pokemonName.toLowerCase()}`).pipe(
+    return this.http.get<Pokemon>(environment.apiUrl + `/${pokemonName.toLowerCase()}`).pipe(
       switchMap((pokemon) => this.http.get<PokemonDescription>(pokemon.species.url).pipe(
         map(spice => ({
           ...pokemon,
@@ -31,7 +30,7 @@ export class PokemonService {
   }
 
   getPokemonList() {
-    return this.http.get<Pagination>(this.configurationService.config.apiUrl + `?limit=9&offset=0`).pipe(
+    return this.http.get<Pagination>(environment.apiUrl + `?limit=9&offset=0`).pipe(
       switchMap((res) => forkJoin(
           res.results.map(pokemon => this.searchPokemon(pokemon.name))
         )
