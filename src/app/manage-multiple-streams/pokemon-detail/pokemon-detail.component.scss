@@ -1,0 +1,63 @@
+:host {
+  font-size: 1.2rem;
+}
+
+h2 {
+  text-transform: capitalize;
+}
+
+.sprite-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(22rem, 1fr));
+  gap: 1rem;
+
+  article {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid white;
+    border-radius: 6px;
+    padding: 1rem;
+
+  }
+
+  &__group {
+    display: flex;
+    justify-content: space-around;
+
+    .sprite {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+
+      img {
+        width: 10rem;
+      }
+    }
+  }
+
+}
+
+.statistic {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+
+  .progress-bar {
+    width: 85%;
+    height: 2rem;
+    border: solid 1px white;
+    border-radius: 1rem;
+    position: relative;
+    overflow: hidden;
+    background-color: #ff006a;
+
+    .progress {
+      position: absolute;
+      content: '';
+      top: 0;
+      bottom: 0;
+      right: 0;
+      background-color: var(--tui-base-01);
+    }
+  }
+}

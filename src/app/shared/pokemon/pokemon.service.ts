@@ -13,16 +13,23 @@ export class PokemonService {
     private http: HttpClient,
   ) { }
 
-  getBulbasaur() {
-    return this.http.get<Pokemon>(environment.apiUrl + '/1');
+  getPokemon(pokemonId: number) {
+    const url = environment.apiUrl || 'https://pokeapi.co/api/v2/pokemon';
+    return this.http.get<Pokemon>(url + '/' + pokemonId);
+  }
+
+  getSpice(url: string) {
+    return this.http.get<PokemonDescription>(url).pipe(
+      map(spice => spice.flavor_text_entries.find(x => x.language.name === 'en').flavor_text)
+    );
   }
 
   searchPokemon(pokemonName: string) {
     return this.http.get<Pokemon>(environment.apiUrl + `/${pokemonName.toLowerCase()}`).pipe(
-      switchMap((pokemon) => this.http.get<PokemonDescription>(pokemon.species.url).pipe(
-        map(spice => ({
+      switchMap((pokemon) => this.getSpice(pokemon.species.url).pipe(
+        map(description => ({
           ...pokemon,
-          description: spice.flavor_text_entries.find(x => x.language.name === 'en').flavor_text
+          description
         }))
       )),
       catchError(() => of(DEFAULT_POKEMON))
@@ -40,6 +47,7 @@ export class PokemonService {
 }
 
 export interface Pokemon {
+  id: number;
   name: string;
   sprites: Sprites;
   types: PokemonType[];
@@ -47,6 +55,12 @@ export interface Pokemon {
     url: string;
   };
   description?: string;
+  stats: Stat[]
+}
+
+export interface Stat {
+  base_stat: number;
+  stat: { name: string }
 }
 
 export interface Sprites {
@@ -85,6 +99,7 @@ export interface PokemonDescription {
 }
 
 const DEFAULT_POKEMON: Pokemon = {
+  id: 0,
   name: '',
   types: [],
   sprites: {
@@ -99,7 +114,8 @@ const DEFAULT_POKEMON: Pokemon = {
   },
   species: {
     url: ''
-  }
+  },
+  stats: []
 }
 
 

@@ -1,3 +1,4 @@
+import { ManageMultipleStreamsModule } from './manage-multiple-streams/manage-multiple-streams.module';
 import { ComunicationPatternModule } from './comunication-pattern/comunication-pattern.module';
 import { AppInitializerModule } from './app-initializer/app-initializer.module';
 import { CoreModule } from './core/core.module';
@@ -26,7 +27,8 @@ import { HttpClientModule } from '@angular/common/http';
     CoreModule,
     HttpClientModule,
     AppInitializerModule,
-    ComunicationPatternModule
+    ComunicationPatternModule,
+    ManageMultipleStreamsModule
   ],
   providers: [
     {

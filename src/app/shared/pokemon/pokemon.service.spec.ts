@@ -31,9 +31,9 @@ describe('PokemonService', () => {
 
   afterEach(() => httpMock.verify());
 
-  describe('getBulbasaur', () => {
+  describe('getPokemon', () => {
     it('Should call to https://pokeapi.co/api/v2/pokemon', () => {
-      service.getBulbasaur().subscribe();
+      service.getPokemon(1).subscribe();
 
       const httpReq = httpMock.expectOne('https://pokeapi.co/api/v2/pokemon' + '/1');
       expect(httpReq.request.method).toBe('GET');

@@ -1,4 +1,4 @@
-<article class="pokemon__card">
+<article class="pokemon__card" (click)="selectedPokemon.emit(pokemon.id)">
   <img
     class="pokemon__card__image"
    [src]="pokemon.sprites.front_default"

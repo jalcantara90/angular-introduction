@@ -5,6 +5,7 @@
 <div class="pokemon__grid">
   <app-pokemon-card
     [pokemon]="pokemon"
+    [routerLink]="['/multiple-stream', pokemon.id]"
     *ngFor="let pokemon of pokemonList">
   </app-pokemon-card>
 </div>

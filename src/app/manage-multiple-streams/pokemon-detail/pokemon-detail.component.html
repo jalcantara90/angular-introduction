@@ -1,0 +1,50 @@
+<h1>Reactive programming</h1>
+
+<ul>
+  <li>The streams needs to be unsubscribed when the component is destroyed to avoid memory leaks.</li>
+  <li>We must avoid subscribe into an observable inside the other subscription</li>
+</ul>
+
+<ng-container *ngIf="pokemon">
+
+  <h2>{{ '#' + pokemon.id  + ' '}} {{pokemon.name}}</h2>
+
+  <div class="sprite-container">
+    <article>
+      <h3>Normal</h3>
+      <div class="sprite-container__group">
+        <div class="sprite">
+          <img loading="lazy" [src]="pokemon.sprites.front_default" alt="">
+          <span>Front</span>
+        </div>
+        <div class="sprite">
+          <img loading="lazy" [src]="pokemon.sprites.back_default" alt="">
+          <span>Back</span>
+        </div>
+      </div>
+    </article>
+    <article>
+      <h3>Shiny</h3>
+      <div class="sprite-container__group">
+        <div class="sprite">
+          <img loading="lazy" [src]="pokemon.sprites.front_shiny" alt="">
+          <span>Front</span>
+        </div>
+        <div class="sprite">
+          <img loading="lazy" [src]="pokemon.sprites.back_shiny" alt="">
+          <span>Back</span>
+        </div>
+      </div>
+    </article>
+  </div>
+
+  <p *ngIf="description">{{description}}</p>
+
+  <div class="statistic mt-1" *ngFor="let statistic of pokemon.stats">
+    <span>{{getStatName(statistic.stat.name)}}</span>
+    <div class="progress-bar">
+      <div class="progress" [style.left]="getPercent(statistic.base_stat) + '%'"></div>
+    </div>
+    <span>{{statistic.base_stat}}</span>
+  </div>
+</ng-container>

@@ -121,6 +121,8 @@
   width: fit-content;
   max-width: 20rem;
   min-height: 24rem;
+  cursor: pointer;
+  transition: 300ms ease-in-out;
 
   &__image {
     width: 13rem;
@@ -145,6 +147,16 @@
       width: 3rem;
       height: 3rem;
     }
+  }
+
+  &:hover {
+    transform: scale(1.02);
+    /* box-shadow: 0px 2px 1px 1px rgb(255 248 248 / 75%); */
+    /* -webkit-box-shadow: 10px 10px 5px 0px rgb(255 248 248 / 75%); */
+    -moz-box-shadow: 10px 10px 5px 0px rgba(255,248,248,0.75);
+    box-shadow: 4px 7px 11px 0px rgb(250 250 250);
+    -webkit-box-shadow: 2px 3px 10px 0px rgb(250 250 250);
+    -moz-box-shadow: 4px 7px 11px 0px rgba(250,250,250,1);
   }
 
 }
