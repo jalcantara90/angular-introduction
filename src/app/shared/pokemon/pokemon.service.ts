@@ -14,8 +14,7 @@ export class PokemonService {
   ) { }
 
   getPokemon(pokemonId: number) {
-    const url = environment.apiUrl || 'https://pokeapi.co/api/v2/pokemon';
-    return this.http.get<Pokemon>(url + '/' + pokemonId);
+    return this.http.get<Pokemon>(environment.apiUrl + '/' + pokemonId);
   }
 
   getSpice(url: string) {
