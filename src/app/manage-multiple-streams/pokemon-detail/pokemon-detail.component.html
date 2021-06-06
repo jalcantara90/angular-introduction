@@ -38,7 +38,7 @@
     </article>
   </div>
 
-  <p *ngIf="description">{{description}}</p>
+  <p>{{pokemon.description}}</p>
 
   <div class="statistic mt-1" *ngFor="let statistic of pokemon.stats">
     <span>{{getStatName(statistic.stat.name)}}</span>
