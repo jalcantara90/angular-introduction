@@ -5,7 +5,7 @@
   <li>We must avoid subscribe into an observable inside the other subscription</li>
 </ul>
 
-<ng-container *ngIf="pokemon">
+<ng-container *ngIf="pokemon$ | async as pokemon">
 
   <h2>{{ '#' + pokemon.id  + ' '}} {{pokemon.name}}</h2>
 

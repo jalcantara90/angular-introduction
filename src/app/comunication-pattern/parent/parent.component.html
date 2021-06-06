@@ -14,8 +14,11 @@
 </app-child>
 
 <div class="horizontal-divider-1"></div>
-<app-pokemon-card
-  [routerLink]="['/multiple-stream', selected.id]"
-  [pokemon]="selected"
-  *ngIf="selected?.name">
-</app-pokemon-card>
+
+<ng-container *ngIf="selected$ | async as selected">
+  <app-pokemon-card
+    [routerLink]="['/multiple-stream', selected.id]"
+    [pokemon]="selected"
+    *ngIf="selected?.name">
+  </app-pokemon-card>
+</ng-container>

@@ -1,3 +1,4 @@
+import { Observable } from 'rxjs';
 import { Pokemon, PokemonService } from '../shared/pokemon/pokemon.service';
 import { Component, OnInit } from '@angular/core';
 
@@ -7,15 +8,14 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./app-initializer.component.scss']
 })
 export class AppInitializerComponent implements OnInit {
-  pokemonList: Pokemon[];
+  pokemonList$: Observable<Pokemon[]>;
 
   constructor(
     private pokemonService: PokemonService
   ) { }
 
   ngOnInit(): void {
-    this.pokemonService.getPokemonList()
-      .subscribe((response) => this.pokemonList = response)
+    this.pokemonList$ = this.pokemonService.getPokemonList();
   }
 
 }

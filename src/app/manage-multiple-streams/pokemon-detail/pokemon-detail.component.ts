@@ -2,7 +2,7 @@ import { Pokemon, PokemonService } from 'src/app/shared/pokemon/pokemon.service'
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ConfigurationService } from 'src/app/shared/configuration/configuration.service';
-import { Subject, Subscription } from 'rxjs';
+import { Observable, Subject, Subscription } from 'rxjs';
 import { switchMap, takeUntil, map } from 'rxjs/operators';
 
 @Component({
@@ -10,22 +10,16 @@ import { switchMap, takeUntil, map } from 'rxjs/operators';
   templateUrl: './pokemon-detail.component.html',
   styleUrls: ['./pokemon-detail.component.scss']
 })
-export class PokemonDetailComponent implements OnInit, OnDestroy {
-  pokemon!: Pokemon;
-  destroy$$ = new Subject();
+export class PokemonDetailComponent implements OnInit {
+  pokemon$!: Observable<Pokemon>;
 
   constructor(
     private activatedRoute: ActivatedRoute,
     private pokemonService: PokemonService
   ) { }
 
-  ngOnDestroy(): void {
-    this.destroy$$.next();
-    this.destroy$$.complete();
-  }
-
   ngOnInit(): void {
-    this.activatedRoute.params.pipe(
+    this.pokemon$ = this.activatedRoute.params.pipe(
       switchMap(({pokemonId}) => {
         return this.pokemonService.getPokemon(pokemonId).pipe(
           switchMap(pokemon => {
@@ -37,11 +31,8 @@ export class PokemonDetailComponent implements OnInit, OnDestroy {
             )
           })
         )
-      }),
-      takeUntil(this.destroy$$),
-    ).subscribe((pokemon) => {
-      this.pokemon = pokemon;
-    });
+      })
+    );
   }
 
   getStatName(statName: string) {

@@ -6,6 +6,6 @@
   <app-pokemon-card
     [pokemon]="pokemon"
     [routerLink]="['/multiple-stream', pokemon.id]"
-    *ngFor="let pokemon of pokemonList">
+    *ngFor="let pokemon of pokemonList$ | async">
   </app-pokemon-card>
 </div>

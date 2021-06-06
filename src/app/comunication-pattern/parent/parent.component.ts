@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Observable } from 'rxjs';
 import { Pokemon, PokemonService } from 'src/app/shared/pokemon/pokemon.service';
 
 @Component({
@@ -7,12 +8,11 @@ import { Pokemon, PokemonService } from 'src/app/shared/pokemon/pokemon.service'
   styleUrls: ['./parent.component.scss']
 })
 export class ParentComponent {
-  selected: Pokemon = null;
+  selected$!: Observable<Pokemon>;
 
   constructor(private pokemonService: PokemonService) { }
 
   getPokemon(search: string) {
-    this.pokemonService.searchPokemon(search)
-      .subscribe(pokemon => this.selected = pokemon);
+    this.selected$ = this.pokemonService.searchPokemon(search);
   }
 }
