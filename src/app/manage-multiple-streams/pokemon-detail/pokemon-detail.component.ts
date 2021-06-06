@@ -12,9 +12,7 @@ import { Subscription } from 'rxjs';
 export class PokemonDetailComponent implements OnInit, OnDestroy {
   pokemon!: Pokemon;
   description!: string;
-  routerSubscription = new Subscription();
-  getPokemonSubscription = new Subscription();
-  getSpiceSubscription = new Subscription();
+  subscription = new Subscription();
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -22,18 +20,22 @@ export class PokemonDetailComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnDestroy(): void {
-    this.routerSubscription.unsubscribe();
-    this.getPokemonSubscription.unsubscribe();
-    this.getSpiceSubscription.unsubscribe();
+    this.subscription.unsubscribe();
   }
 
   ngOnInit(): void {
-    this.routerSubscription = this.activatedRoute.params.subscribe(({pokemonId}) => {
-      this.getPokemonSubscription = this.pokemonService.getPokemon(pokemonId).subscribe((pokemon) => {
-        this.pokemon = pokemon;
-        this.getSpiceSubscription = this.pokemonService.getSpice(pokemon.species.url).subscribe(description => this.description = description);
-      });
-    });
+    this.subscription.add(
+      this.activatedRoute.params.subscribe(({pokemonId}) => {
+        this.subscription.add(
+          this.pokemonService.getPokemon(pokemonId).subscribe((pokemon) => {
+            this.pokemon = pokemon;
+            this.subscription.add(
+              this.pokemonService.getSpice(pokemon.species.url).subscribe(description => this.description = description)
+            );
+          })
+        );
+      })
+    )
   }
 
   getStatName(statName: string) {
