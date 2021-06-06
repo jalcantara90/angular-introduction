@@ -1,7 +1,6 @@
 import { Component, Output } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { debounceTime, switchMap } from 'rxjs/operators';
-import { PokemonService } from 'src/app/shared/pokemon/pokemon.service';
+import { debounceTime } from 'rxjs/operators';
 
 @Component({
   selector: 'app-child',
@@ -9,13 +8,11 @@ import { PokemonService } from 'src/app/shared/pokemon/pokemon.service';
   styleUrls: ['./child.component.scss']
 })
 export class ChildComponent {
-
   searchPokemonControl = new FormControl();
 
   @Output() searchPokemon = this.searchPokemonControl.valueChanges.pipe(
-    debounceTime(400),
-    switchMap(search => this.pokemonService.searchPokemon(search)),
+    debounceTime(400)
   );
 
-  constructor(private pokemonService: PokemonService) { }
+  constructor() { }
 }
