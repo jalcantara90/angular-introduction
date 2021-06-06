@@ -1,8 +1,9 @@
+import { ENVIRONMENT } from './../../../environments/environment.injectiontoken';
+import { EnvironmentSettings } from './../../../environments/environment.model';
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Inject, Injectable } from '@angular/core';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import { forkJoin, of } from 'rxjs';
-import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -11,10 +12,11 @@ export class PokemonService {
 
   constructor(
     private http: HttpClient,
+    @Inject(ENVIRONMENT) private environment: EnvironmentSettings
   ) { }
 
   getPokemon(pokemonId: number) {
-    return this.http.get<Pokemon>(environment.apiUrl + '/' + pokemonId);
+    return this.http.get<Pokemon>(this.environment.apiUrl + '/' + pokemonId);
   }
 
   getSpice(url: string) {
@@ -24,7 +26,7 @@ export class PokemonService {
   }
 
   searchPokemon(pokemonName: string) {
-    return this.http.get<Pokemon>(environment.apiUrl + `/${pokemonName.toLowerCase()}`).pipe(
+    return this.http.get<Pokemon>(this.environment.apiUrl + `/${pokemonName.toLowerCase()}`).pipe(
       switchMap((pokemon) => this.getSpice(pokemon.species.url).pipe(
         map(description => ({
           ...pokemon,
@@ -36,7 +38,7 @@ export class PokemonService {
   }
 
   getPokemonList() {
-    return this.http.get<Pagination>(environment.apiUrl + `?limit=9&offset=0`).pipe(
+    return this.http.get<Pagination>(this.environment.apiUrl + `?limit=9&offset=0`).pipe(
       switchMap((res) => forkJoin(
           res.results.map(pokemon => this.searchPokemon(pokemon.name))
         )

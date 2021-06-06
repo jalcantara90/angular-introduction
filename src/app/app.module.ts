@@ -12,6 +12,7 @@ import { AppComponent } from './app.component';
 import { TuiInputModule } from '@taiga-ui/kit';
 import { HttpClientModule } from '@angular/common/http';
 import { ConfigurationService } from './shared/configuration/configuration.service';
+import { environmentProvider } from '../environments/environment.provider';
 
 function initializeApp(configService: ConfigurationService) {
   return () => configService.loadConfiguration().toPromise();
@@ -46,7 +47,8 @@ function initializeApp(configService: ConfigurationService) {
       useFactory: initializeApp,
       multi: true,
       deps: [ConfigurationService]
-    }
+    },
+    environmentProvider()
   ],
   bootstrap: [AppComponent]
 })

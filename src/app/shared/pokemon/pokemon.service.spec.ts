@@ -1,3 +1,4 @@
+import { ENVIRONMENT } from './../../../environments/environment.injectiontoken';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { EnvironmentSettings } from 'src/environments/environment.model';
@@ -8,11 +9,12 @@ describe('PokemonService', () => {
   let service: PokemonService;
 
 
-  const settings: Partial<EnvironmentSettings> = {
+  const mockSettings: EnvironmentSettings = {
     production: false,
     applicationInsights: {
       instrumentationKey: 'instrumentation'
     },
+    apiUrl: 'https://pokeapi.co/api/v2/pokemon'
   };
 
   beforeEach(() => {
@@ -21,12 +23,16 @@ describe('PokemonService', () => {
         HttpClientTestingModule
       ],
       providers: [
-        PokemonService
+        PokemonService,
+        {
+          provide: ENVIRONMENT,
+          useValue: mockSettings
+        }
       ]
     });
 
-    httpMock = TestBed.get(HttpTestingController);
-    service = TestBed.get(PokemonService);
+    httpMock = TestBed.inject(HttpTestingController);
+    service = TestBed.inject(PokemonService);
   });
 
   afterEach(() => httpMock.verify());
