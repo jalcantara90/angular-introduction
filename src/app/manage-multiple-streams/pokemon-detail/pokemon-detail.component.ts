@@ -2,7 +2,8 @@ import { Pokemon, PokemonService } from 'src/app/shared/pokemon/pokemon.service'
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ConfigurationService } from 'src/app/shared/configuration/configuration.service';
-import { Subscription } from 'rxjs';
+import { Subject, Subscription } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-pokemon-detail',
@@ -12,7 +13,7 @@ import { Subscription } from 'rxjs';
 export class PokemonDetailComponent implements OnInit, OnDestroy {
   pokemon!: Pokemon;
   description!: string;
-  subscription = new Subscription();
+  destroy$$ = new Subject();
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -20,22 +21,23 @@ export class PokemonDetailComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnDestroy(): void {
-    this.subscription.unsubscribe();
+    this.destroy$$.next();
+    this.destroy$$.complete();
   }
 
   ngOnInit(): void {
-    this.subscription.add(
-      this.activatedRoute.params.subscribe(({pokemonId}) => {
-        this.subscription.add(
-          this.pokemonService.getPokemon(pokemonId).subscribe((pokemon) => {
-            this.pokemon = pokemon;
-            this.subscription.add(
-              this.pokemonService.getSpice(pokemon.species.url).subscribe(description => this.description = description)
-            );
-          })
-        );
-      })
-    )
+    this.activatedRoute.params.pipe(
+      takeUntil(this.destroy$$)
+    ).subscribe(({pokemonId}) => {
+      this.pokemonService.getPokemon(pokemonId).pipe(
+        takeUntil(this.destroy$$)
+      ).subscribe((pokemon) => {
+        this.pokemon = pokemon;
+        this.pokemonService.getSpice(pokemon.species.url).pipe(
+          takeUntil(this.destroy$$)
+        ).subscribe(description => this.description = description)
+      });
+    });
   }
 
   getStatName(statName: string) {
