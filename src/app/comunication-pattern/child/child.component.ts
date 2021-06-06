@@ -1,7 +1,6 @@
-import { Component, OnInit, Output } from '@angular/core';
+import { Component, Output } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { debounceTime, switchMap } from 'rxjs/operators';
-import { ConfigurationService } from 'src/app/shared/configuration/configuration.service';
 import { PokemonService } from 'src/app/shared/pokemon/pokemon.service';
 
 @Component({
@@ -9,7 +8,7 @@ import { PokemonService } from 'src/app/shared/pokemon/pokemon.service';
   templateUrl: './child.component.html',
   styleUrls: ['./child.component.scss']
 })
-export class ChildComponent implements OnInit {
+export class ChildComponent {
 
   searchPokemonControl = new FormControl();
 
@@ -18,9 +17,5 @@ export class ChildComponent implements OnInit {
     switchMap(search => this.pokemonService.searchPokemon(search)),
   );
 
-  constructor(private pokemonService: PokemonService, private configurationService: ConfigurationService) { }
-
-  ngOnInit(): void {
-    this.configurationService.loadConfiguration().subscribe();
-  }
+  constructor(private pokemonService: PokemonService) { }
 }
