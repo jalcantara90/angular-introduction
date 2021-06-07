@@ -1,8 +1,6 @@
-import { PokemonDetailComponent } from './manage-multiple-streams/pokemon-detail/pokemon-detail.component';
-import { ParentComponent } from './comunication-pattern/parent/parent.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { AppInitializerComponent } from './app-initializer/app-initializer.component';
+import { NetworkPreloadStrategy } from './network-preload.strategy';
 
 const routes: Routes = [
   { path: 'app-initializer', loadChildren: () => import('./app-initializer/app-initializer.module').then(m => m.AppInitializerModule) },
@@ -11,7 +9,9 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes, {
+    preloadingStrategy: NetworkPreloadStrategy
+  })],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }
