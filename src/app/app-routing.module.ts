@@ -5,9 +5,9 @@ import { RouterModule, Routes } from '@angular/router';
 import { AppInitializerComponent } from './app-initializer/app-initializer.component';
 
 const routes: Routes = [
-  { path: 'app-initializer', component: AppInitializerComponent },
-  { path: 'comunication-pattern', component: ParentComponent },
-  { path: 'multiple-stream/:pokemonId', component: PokemonDetailComponent }
+  { path: 'app-initializer', loadChildren: () => import('./app-initializer/app-initializer.module').then(m => m.AppInitializerModule) },
+  { path: 'comunication-pattern', loadChildren: () => import('./comunication-pattern/comunication-pattern.module').then(m => m.ComunicationPatternModule) },
+  { path: 'multiple-stream', loadChildren: () => import('./manage-multiple-streams/manage-multiple-streams.module').then(m => m.ManageMultipleStreamsModule) }
 ];
 
 @NgModule({

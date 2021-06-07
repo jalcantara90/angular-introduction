@@ -31,10 +31,7 @@ function initializeApp(configService: ConfigurationService) {
     TuiModeModule,
     TuiInputModule,
     CoreModule,
-    HttpClientModule,
-    AppInitializerModule,
-    ComunicationPatternModule,
-    ManageMultipleStreamsModule
+    HttpClientModule
   ],
   providers: [
     {
